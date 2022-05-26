@@ -1,5 +1,7 @@
 from django.conf import settings
-from django.db import models
+from django.db import migrations, models
+import django.db.models.deletion
+
 
 # Create your models here.
 '''Создаем модели данных для блога
@@ -19,6 +21,7 @@ website — опциональный URL, по которому можно уз�
 bio — опциональное небольшое био («о себе»).
 '''
 
+
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -27,11 +30,13 @@ class Profile(models.Model):
     website = models.URLField(blank=True)
     bio = models.CharField(max_length=240, blank=True)
 # Метод __str__ сделает удобнее отображение профилей в панели администратора .
+
     def __str__(self):
         return self.user.get_username()
 
 # Модель Tag
 # В модели Tag будет единственное поле, короткое имя тега
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -42,6 +47,7 @@ class Tag(models.Model):
 # Модель Post
 # Модель Post — самая сложная, содержит множество полей: заголовок (title), подзаголовок (subtitle),
 # слаг (slug, уникальная часть URL для нашего поста), контент поста (body) и т.д.
+
 
 class Post(models.Model):
     class Meta:
